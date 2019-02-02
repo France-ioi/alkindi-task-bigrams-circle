@@ -148,7 +148,7 @@ function generateKey (alphabet, rngKeys) {
 
 function makeSubstitutionBigramAlphabet (alphabet, encodingKey) {
   const bigrams = {};
-  const charRanks = alphabet.split('').reduce((obj, char, index) => {
+  const charRanks = encodingKey.split('').reduce((obj, char, index) => {
     obj[char] = index;
     return obj;
   }, {});
@@ -159,8 +159,8 @@ function makeSubstitutionBigramAlphabet (alphabet, encodingKey) {
 
   function getSubstitutionForBigram (c1, c2) {
     let l1 = '', l2 = '';
-    l2 = encodingKey[((pos(c1) + (pos(c1) - pos(c2)) + 29) % 29)];
-    l1 = encodingKey[((pos(c2) - (pos(c1) - pos(c2)) + 29) % 29)];
+    l1 = encodingKey[((pos(c2) + (pos(c2) - pos(c1)) + 29) % 29)];
+    l2 = encodingKey[((pos(c1) - (pos(c2) - pos(c1)) + 29) % 29)];
     return l1 + l2;
   }
   const alphabetSymbols = alphabet.split('');
