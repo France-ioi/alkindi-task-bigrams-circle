@@ -17,7 +17,12 @@ module.exports.config = {
 };
 
 module.exports.taskData = function (args, callback) {
-  const {publicData} = generateTaskData(args.task);
+  if (process.env.DEV_MODE) {
+    args.task.random_seed = 1;
+  }
+  // hints array
+  const hintsRequested = getHintsRequested(args.task.hints_requested);
+  const {publicData} = generateTaskData(args.task.random_seed, hintsRequested);
   callback(null, publicData);
 };
 
@@ -45,6 +50,12 @@ module.exports.requestHint = function (args, callback) {
 
 module.exports.gradeAnswer = function (args, task_data, callback) {
 
+  if (process.env.DEV_MODE) {
+    args.task.random_seed = 1;
+  }
+  // hints array
+  const hintsRequested = getHintsRequested(args.answer.hints_requested);
+
   const {
     publicData: {
       alphabet,
@@ -52,12 +63,11 @@ module.exports.gradeAnswer = function (args, task_data, callback) {
     privateData: {
       encodingKey
     }
-  } = generateTaskData(args.task);
+  } = generateTaskData(args.task.random_seed, hintsRequested);
 
   let {keys} = JSON.parse(args.answer.value);
   const answerKey = keys.map(i => (i === -1 ? " " : alphabet[i])).join("");
 
-  const hintsRequested = getHintsRequested(args.task.hints_requested);
   const nHints = hintsRequested.length;
 
   let score = 0, message = ` you have used ${nHints} indice${
@@ -103,13 +113,7 @@ function getHintsRequested (hints_requested) {
     .filter(hr => hr !== null);
 }
 
-function generateTaskData (task) {
-  if (process.env.DEV_MODE) {
-    task.random_seed = 1;
-  }
-
-  // hints array
-  const hintsRequested = getHintsRequested(task.hints_requested);
+function generateTaskData (random_seed, hintsRequested) {
 
   const {
     cipherText,
@@ -119,7 +123,7 @@ function generateTaskData (task) {
     decodingKey
   } = generateMessageData(
     alphabet,
-    task.random_seed,
+    random_seed,
     hintsRequested
   );
 
