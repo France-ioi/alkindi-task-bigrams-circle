@@ -136,7 +136,9 @@ function generateTaskData (task) {
 
 function generateKey (alphabet, rngKeys) {
   let key = shuffle({random: rngKeys, deck: alphabet.split("")}).cards.join("");
-  key = "HIJKLMNOPQRSTUVWXYZABCDEFG,.?"; //for dev mode testing
+  if (process.env.DEV_MODE) {
+    key = "HIJKLMNOPQRSTUVWXYZABCDEFG,.?"; //for dev mode testing
+  }
   return key;
 }
 

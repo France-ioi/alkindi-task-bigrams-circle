@@ -28,7 +28,9 @@ class Workspace extends React.PureComponent {
         <h2>Encrypted message</h2>
         <CipheredText />
         <h2>Encryption key</h2>
-        <Decryption />
+        <div className='panel-body'>
+          <Decryption />
+        </div>
         <Hints />
         <h2>Generated bigram substitutions</h2>
         <div className='panel-body'>

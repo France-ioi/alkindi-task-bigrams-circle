@@ -235,11 +235,11 @@ background-color: #5df3a0;
 .bigram-cell-middle:after {
     content: " ";
     display: block;
-    border-left: 2px solid rgb(0, 0, 0);
+    border-left: 3px solid rgb(0, 0, 0);
     width: 1px;
     height: 15px;
     position: absolute;
-    margin-left: 9px;
+    margin-left: 8.5px;
     margin-top: -18px;
 }
 
@@ -261,18 +261,16 @@ background-color: #5df3a0;
     width: 1px;
     height: 13px;
     position: absolute;
-    margin-left: 10.5px;
-    margin-top: 3px;
+    margin-left: 11px;
+    margin-top: 2px;
 }
 
 .bigram-cell-middle:before {
     content: " ";
     display: block;
-    border-top: 2px solid rgb(0, 0, 0);
-    border-bottom: 2px solid rgb(0, 0, 0);
+    border-top: 4px solid rgb(0, 0, 0);
     width: 20px;
     height: 1px;
-    margin: auto;
     position: absolute;
     margin-top: 7px;
 }
@@ -280,14 +278,13 @@ background-color: #5df3a0;
 .bigram-cell-left:after {
     content: " ";
     display: block;
-    border-top: 2px solid rgb(0, 0, 0);
-    border-bottom: 2px solid rgb(0, 0, 0);
+    border-top: 4px solid rgb(0, 0, 0);
     border-radius: 4px;
     width: 12px;
     height: 1px;
     position: absolute;
     margin-top: -13px;
-    margin-left: 8px;
+    margin-left: 8.5px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
@@ -295,14 +292,12 @@ background-color: #5df3a0;
 .bigram-cell-right:after {
     content: " ";
     display: block;
-    border-top: 2px solid rgb(0, 0, 0);
-    border-bottom: 2px solid rgb(0, 0, 0);
+    border-top: 4px solid rgb(0, 0, 0);
     border-radius: 4px;
     width: 13px;
     height: 1px;
     position: absolute;
     margin-top: -13px;
-    margin-left: 0.5px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
 }
@@ -310,13 +305,12 @@ background-color: #5df3a0;
 .bigram-cell-active:after {
     content: " ";
     display: block;
-    border-top: 2px solid rgb(0, 0, 0);
-    border-bottom: 2px solid rgb(0, 0, 0);
+    border-top: 4px solid rgb(0, 0, 0);
+    border-radius: none !important;
     width: 20px;
     height: 1px;
     margin: auto;
     position: absolute;
     margin-top: -13px;
 }
-
 
