@@ -5,7 +5,7 @@ var {generate} = require("../bebras-modules/pemFioi/sentences_2");
 /**
  * Default constants
  */
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,.?";
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ:.?";
 
 /**
  * task module export...
