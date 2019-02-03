@@ -32,7 +32,7 @@ class Workspace extends React.PureComponent {
           <Decryption />
         </div>
         <Hints />
-        <h2>Bigrammes de substitution générés</h2>
+        <h2>Substitutions de bigrammes générés</h2>
         <div className='panel-body'>
           <Substitution />
         </div>
