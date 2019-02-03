@@ -97,7 +97,7 @@ function generateMessageData (alphabet, seedInt, hintsRequested) {
   const rngKeys = seedrandom(rng0());
   const rngText = seedrandom(rng0());
 
-  const clearText = generate(rngText, 1000, 1100, true);
+  const clearText = generate(rngText, 5000, 5100, true);
   // const clearText = alphabet.repeat(10);
   const encodingKey = generateKey(alphabet, rngKeys); // encoding keys in decoding order
   const decodingKey = inversePermutation(alphabet, encodingKey);
