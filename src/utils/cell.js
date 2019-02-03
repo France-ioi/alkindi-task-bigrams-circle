@@ -75,6 +75,7 @@ export const getCellLetter = function (alphabet, cell, padding) {
 
 const qualifierClasses = {
    'hint': 'qualifier-hint',
+   'filled': 'qualifier-hint',
    'confirmed': 'qualifier-confirmed',
    'locked': 'qualifier-confirmed',
    'guess': 'qualifier-unconfirmed',

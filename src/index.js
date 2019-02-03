@@ -74,17 +74,16 @@ function appInitReducer (state, _action) {
 }
 
 function taskInitReducer (state, _action) {
-  const {alphabet: taskAlphabet, hints} = selectTaskData(state);
+  const {alphabet: taskAlphabet, hints, answerKeys} = selectTaskData(state);
   const alphabet = makeAlphabet(taskAlphabet);
   const bigramAlphabet = makeBigramAlphabet(alphabet);
-  const decryption = loadDecryption(taskAlphabet, hints);
+  const decryption = loadDecryption(taskAlphabet, answerKeys, hints);
   return {
     ...state,
     taskReady: true,
     decryption,
     alphabet,
     bigramAlphabet,
-    hintsGrid: {},
     mostFrequentFrench: mostFrequentFrench.map(function (p) {
       return {...bigramAlphabet.bigrams[p.v], r: p.r};
     })
@@ -92,10 +91,10 @@ function taskInitReducer (state, _action) {
 }
 
 function taskRefreshReducer (state, _action) {
-  const {alphabet, hints} = selectTaskData(state);
+  const {alphabet, answerKeys, hints} = selectTaskData(state);
   const {selectedBigram, bigramL1Cells, bigramL2Cells} = state.decryption;
   const dump = dumpDecryption(alphabet, state.decryption);
-  const decryption = loadDecryption(alphabet, hints, dump);
+  const decryption = loadDecryption(alphabet, answerKeys, hints, dump);
   return {...state, decryption: {...decryption, selectedBigram, bigramL1Cells, bigramL2Cells}};
 }
 
@@ -108,9 +107,9 @@ function getTaskAnswer (state) {
 }
 
 function taskAnswerLoaded (state, {payload: {answer}}) {
-  const {alphabet, hints} = selectTaskData(state);
+  const {alphabet, answerKeys, hints} = selectTaskData(state);
   const {selectedBigram, bigramL1Cells, bigramL2Cells} = state.decryption;
-  const decryption = loadDecryption(alphabet, hints, answer.keys);
+  const decryption = loadDecryption(alphabet, answerKeys, hints, answer.keys);
   return update(state, {decryption: {$set:  {...decryption, selectedBigram, bigramL1Cells, bigramL2Cells}}});
 }
 
@@ -123,9 +122,9 @@ function getTaskState (state) {
 }
 
 function taskStateLoaded (state, {payload: {dump}}) {
-  const {alphabet, hints} = selectTaskData(state);
+  const {alphabet, answerKeys, hints} = selectTaskData(state);
   const {selectedBigram, bigramL1Cells, bigramL2Cells} = state.decryption;
-  const decryption = loadDecryption(alphabet, hints, dump.decryption);
+  const decryption = loadDecryption(alphabet, answerKeys, hints, dump.decryption);
   return update(state, {
     decryption: {$set: {...decryption, selectedBigram, bigramL1Cells, bigramL2Cells}},
     editSubstitution: {substitutionEdits: {$set: dump.substitutionEdits}},

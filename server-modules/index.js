@@ -21,21 +21,9 @@ module.exports.taskData = function (args, callback) {
     args.task.random_seed = 1;
   }
   const version = parseInt(args.task.params.version);
-  let numAnswerKeys = 0;
-
-  switch (version) {
-    case 1: {
-      numAnswerKeys = 8;
-      break;
-    }
-    case 2: {
-      numAnswerKeys = 1;
-      break;
-    }
-  }
   // hints array
   const hintsRequested = getHintsRequested(args.task.hints_requested);
-  const {publicData} = generateTaskData(args.task.random_seed, hintsRequested, numAnswerKeys);
+  const {publicData} = generateTaskData(args.task.random_seed, hintsRequested, version);
   callback(null, publicData);
 };
 
@@ -126,7 +114,20 @@ function getHintsRequested (hints_requested) {
     .filter(hr => hr !== null);
 }
 
-function generateTaskData (random_seed, hintsRequested, answerKeys = 0) {
+function generateTaskData (random_seed, hintsRequested, version) {
+
+  let answerKeys = 0;
+
+  switch (version) {
+    case 1: {
+      answerKeys = 8;
+      break;
+    }
+    case 2: {
+      answerKeys = 1;
+      break;
+    }
+  }
 
   const {
     cipherText,
@@ -145,8 +146,7 @@ function generateTaskData (random_seed, hintsRequested, answerKeys = 0) {
     alphabet,
     cipherText,
     hints,
-    answerKeys: encodingKey.substring(0, answerKeys).split(''),
-    firstname: 'test'
+    answerKeys: encodingKey.substring(0, answerKeys).split('').map((symbol, i) => ({cellRank: i, symbol})),
   };
 
   return {publicData, privateData};
@@ -154,9 +154,9 @@ function generateTaskData (random_seed, hintsRequested, answerKeys = 0) {
 
 function generateKey (alphabet, rngKeys) {
   let key = shuffle({random: rngKeys, deck: alphabet.split("")}).cards.join("");
- // if (process.env.DEV_MODE) {
- //   key = "HIJKLMNOPQRSTUVWXYZABCDEFG,.?"; //for dev mode testing
- // }
+  // if (process.env.DEV_MODE) {
+  //   key = "HIJKLMNOPQRSTUVWXYZABCDEFG,.?"; //for dev mode testing
+  // }
   return key;
 }
 

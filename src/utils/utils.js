@@ -16,8 +16,8 @@ function bisect (a, x) {
 }
 
 export function selectTaskData (state) {
-  const {taskData: {alphabet, cipherText, hints, firstname}} = state;
-  return {alphabet, cipherText, hints, firstname};
+  const {taskData: {alphabet, cipherText, hints, answerKeys}} = state;
+  return {alphabet, cipherText, hints, answerKeys};
 }
 
 export function changeSelection (values, value, selected) {
@@ -115,7 +115,7 @@ export function dumpDecryption (alphabet, decryption) {
       [alphabet.indexOf(editable), locked ? 1 : 0]);
 }
 
-export function loadDecryption (alphabet, hints, cells=[]) {
+export function loadDecryption (alphabet, answerKeys, hints, cells=[]) {
     const $cells = [];
     cells.forEach((cell, cellIndex) => {
       /* Locking information is not included in the answer. */
@@ -130,6 +130,12 @@ export function loadDecryption (alphabet, hints, cells=[]) {
         $cells[j] = {
           editable: {$set: symbol},
           hint: {$set: true},
+        };
+    });
+    answerKeys.forEach(({cellRank: j, symbol}) => {
+        $cells[j] = {
+          editable: {$set: symbol},
+          filled: {$set: true},
         };
     });
     let decryption = makeDecryption(alphabet);

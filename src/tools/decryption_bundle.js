@@ -31,7 +31,7 @@ function decryptionCellEditMovedReducer (state, {payload: {cellMove}}) {
     cell = decryption.cells[cellRank];
     /* If we looped back to the starting point, the move is impossible. */
     if (cellStop == cellRank) return state;
-  } while (cell.hint || cell.locked);
+  } while (cell.hint || cell.filled || cell.locked);
   return update(state, {editing: {$set: {cellRank}}});
 }
 
@@ -83,17 +83,21 @@ function decryptionLateReducer (state, _action) {
     return state;
   }
   let decryptedLetters = 0;
-  const decryptionCells = decryption.cells.map(({editable, hint, locked}) => {
+  const decryptionCells = decryption.cells.map(({editable, filled, hint, locked}) => {
     if (editable) {
       const index = alphabet.ranks[editable];
       decryptedLetters++;
       if (hint) {
         return {'q': 'hint', 'l': index};
       } else {
-        if (locked) {
-          return {'q': 'locked', 'l': index};
+        if (filled) {
+          return {'q': 'filled', 'l': index};
         } else {
-          return {'q': 'guess', 'l': index};
+          if (locked) {
+            return {'q': 'locked', 'l': index};
+          } else {
+            return {'q': 'guess', 'l': index};
+          }
         }
       }
     } else {
@@ -131,16 +135,16 @@ class DecryptionView extends React.PureComponent {
       <div style={{width: "100%"}}>
         <div className='clearfix' style={{marginLeft: "130px"}}>
           {range(0, nbCells).map(rank => {
-            const {editable, locked, conflict, hint} = cells[rank];
+            const {editable, locked, conflict, filled, hint} = cells[rank];
             const isActive = false;
-            const isEditing = editingRank === rank && !locked && !hint;
+            const isEditing = editingRank === rank && !locked && !hint && !filled;
             const isLast = nbCells === rank + 1;
             const l1Cell = bigramL1Cells[rank];
             const l2Cell = bigramL2Cells[rank];
             return (
               <DecryptionCell key={rank} rank={rank} isLast={isLast}
                 l1Cell={l1Cell} l2Cell={l2Cell}
-                editableChar={editable} isLocked={locked} isHint={hint} isEditing={isEditing} isActive={isActive}
+                editableChar={editable} isLocked={locked} isFilled={filled} isHint={hint} isEditing={isEditing} isActive={isActive}
                 onChangeChar={this.onChangeChar} onChangeLocked={this.onChangeLocked}
                 onEditingStarted={this.onEditingStarted} onEditingCancelled={this.onEditingCancelled}
                 onChangeBigram={this.onChangeBigram}
@@ -175,7 +179,7 @@ class DecryptionCell extends React.PureComponent {
   /* XXX Clicking in the editable div and entering the same letter does not
          trigger a change event.  This behavior is unfortunate. */
   render () {
-    const {l1Cell, l2Cell, editableChar, isLocked, isHint, isActive, isEditing, isLast, isConflict} = this.props;
+    const {l1Cell, l2Cell, editableChar, isLocked, isFilled, isHint, isActive, isEditing, isLast, isConflict} = this.props;
     const columnStyle = {
       float: 'left',
       width: '20px',
@@ -190,7 +194,7 @@ class DecryptionCell extends React.PureComponent {
       borderRightWidth: isLast ? '1px' : '0',
       textAlign: 'center',
       cursor: 'text',
-      backgroundColor: isHint ? '#afa' : (isConflict ? '#fcc' : '#fff')
+      backgroundColor: isHint ? '#afa' : (isFilled ? '#daff9f' : (isConflict ? '#fcc' : '#fff'))
     };
     /* Apply active-status separation border style. */
     const bottomCellStyle = staticCellStyle;
@@ -203,13 +207,13 @@ class DecryptionCell extends React.PureComponent {
     }
     const bigramL1Style = this.getBigramStyles(l1Cell);
     const bigramL1Cell = (
-      <div className={bigramL1Style}  onClick={this.bigramL1Selected}>
+      <div className={bigramL1Style} onClick={this.bigramL1Selected}>
         {'\u00A0'}
       </div>
     );
     const bigramL2Style = this.getBigramStyles(l2Cell);
     const bigramL2Cell = (
-      <div className={bigramL2Style}  onClick={this.bigramL2Selected}>
+      <div className={bigramL2Style} onClick={this.bigramL2Selected}>
         {'\u00A0'}
       </div>
     );
@@ -223,7 +227,7 @@ class DecryptionCell extends React.PureComponent {
     );
     const lock = (
       <div style={{marginTop: '2px', textAlign: 'center', cursor: 'pointer'}} onClick={this.lockClicked}>
-        {isHint ? '\u00A0' : <i className={classnames(['fa', isLocked ? 'fa-lock' : 'fa-unlock-alt'])} />}
+        {(isHint || isFilled) ? '\u00A0' : <i className={classnames(['fa', isLocked ? 'fa-lock' : 'fa-unlock-alt'])} />}
       </div>
     );
     return (

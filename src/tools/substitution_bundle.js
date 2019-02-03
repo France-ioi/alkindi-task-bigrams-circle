@@ -56,7 +56,7 @@ export function Substitution (props) {
 function getQualifierClass (q) {
    if ((q === "locked") || (q === "confirmed")) {
       return "qualifier-confirmed";
-   } else if (q === "hint") {
+   } else if (q === "hint" || q === "filled") {
       return "qualifier-hint";
    } else {
       return "qualifier-unconfirmed";

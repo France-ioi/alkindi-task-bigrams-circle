@@ -64,7 +64,7 @@ function decipheredTextLateReducer (state, _action) {
       const $cell = outputText[index];
       if ($cell.l !== undefined) {
         cell.rank = $cell.l;
-        if ($cell.q === 'hint') {
+        if ($cell.q === 'hint' || $cell.q === 'filled') {
           cell.isHint = true;
         } else {
           if ($cell.q === 'confirmed') {
