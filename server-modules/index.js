@@ -76,7 +76,7 @@ module.exports.gradeAnswer = function (args, task_data, callback) {
     }.`;
 
   if (answerKey === encodingKey) {
-    score = Math.max(0, 100 - nHints);
+    score = Math.max(0, 100 - (nHints * 5));
     message = "Bravo, vous avez retrouvé la clé de déchiffrement." + message;
   } else {
     score = 0;
@@ -120,7 +120,7 @@ function generateTaskData (random_seed, hintsRequested, version) {
 
   switch (version) {
     case 1: {
-      answerKeys = 8;
+      answerKeys = 15;
       break;
     }
     case 2: {
