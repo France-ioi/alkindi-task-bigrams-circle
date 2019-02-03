@@ -27,7 +27,7 @@ class Workspace extends React.PureComponent {
         <br />
         <h2>Message chiffré</h2>
         <CipheredText />
-        <h2>Encryption key</h2>
+        <h2>Clé de déchiffrement</h2>
         <div className='panel-body'>
           <Decryption />
         </div>
