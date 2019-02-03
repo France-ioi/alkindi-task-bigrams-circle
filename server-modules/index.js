@@ -71,16 +71,16 @@ module.exports.gradeAnswer = function (args, task_data, callback) {
 
   const nHints = hintsRequested.length;
 
-  let score = 0, message = ` you have used ${nHints} indice${
+  let score = 0, message = ` Vous avez utilisé ${nHints} indice${
     nHints > 1 ? "s" : ""
     }.`;
 
   if (answerKey === encodingKey) {
     score = Math.max(0, 100 - nHints);
-    message = "Congrats! Decryption Key is correct." + message;
+    message = "Bravo, vous avez retrouvé la clé de déchiffrement." + message;
   } else {
     score = 0;
-    message = "Decryption Key is wrong." + message;
+    message = "La clé de déchiffrement est incorrecte." + message;
   }
 
   callback(null, {
