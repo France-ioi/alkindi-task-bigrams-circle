@@ -44,7 +44,7 @@ class Workspace extends React.PureComponent {
             editable={false}
             nBigrams={10} />
         </div>
-        <h2>Message décrypté</h2>
+        <h2>Message déchiffré</h2>
         <div className='panel-body'>
           <DecipheredText />
         </div>
