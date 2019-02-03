@@ -7,10 +7,26 @@ import {selectTaskData} from '../utils/utils';
 
 class Hint1View extends React.PureComponent {
     render () {
-        const {hintRequest: {isActive}, hintRequestData} = this.props;
+        const {hintRequest: {isActive}, hintRequestData, pointsTxt, isLeft} = this.props;
+        const customBorder = {display: "inline-grid", padding: "10px", border: "1px solid #000", width: "33%", background: "rgb(202, 202, 202)"};
+        if (isLeft) {
+            customBorder.borderRight = "0";
+        } else {
+            customBorder.borderLeft = "0";
+        }
+
         return (
-            <div style={{textAlign: "center", margin: "10px 0"}}>
-                <Button onClick={this.requestHint} disabled={!hintRequestData || isActive}>{`Valider`}</Button>
+            <div style={customBorder}>
+                <p>
+                    {"Pour un coût de "}
+                    <span style={{fontWeight: "bold"}}>{pointsTxt}</span>
+                    {
+                        ", cliquez sur une case de substitution et validez pour obtenir sa valeur."
+                    }
+                </p>
+                <div style={{textAlign: "center", margin: "10px 0"}}>
+                    <Button onClick={this.requestHint} disabled={!hintRequestData || isActive}>{`Valider`}</Button>
+                </div>
             </div>
         );
     }
@@ -27,7 +43,7 @@ class Hint2View extends React.PureComponent {
         this.state = {index: ""};
     }
     render () {
-        const {alphabet, hints, lockedLetters, hintRequest: {isActive}} = this.props;
+        const {alphabet, hints, lockedLetters, hintRequest: {isActive}, pointsTxt, isLeft} = this.props;
 
         const knownLetters = hints
             .map(({symbol}) => symbol)
@@ -40,24 +56,40 @@ class Hint2View extends React.PureComponent {
                         {letter}
                     </option>
                 ));
+        const customBorder = {display: "inline-grid", padding: "10px", border: "1px solid #000", width: "33%", background: "rgb(202, 202, 202)"};
+        if (isLeft) {
+            customBorder.borderRight = "0";
+        } else {
+            customBorder.borderLeft = "0";
+        }
 
         return (
-            <div style={{textAlign: "center", margin: "10px 0"}}>
-                <Form inline style={{display: "inline-block", width: "auto", verticalAlign: "middle"}}>
-                    <FormGroup controlId="formControlsSelect">
-                        <FormControl
-                            onChange={this.onDropdownChanged}
-                            inputRef={el => (this.inputEl = el)}
-                            value={this.state.index}
-                            disabled={isActive}
-                            componentClass="select"
-                            placeholder="select">
-                            <option key={-1} value="">lettre</option>
-                            {hintsOptions}
-                        </FormControl>
-                        <Button disabled={this.state.index === ""} onClick={this.handleHintSubmit}>{`Valider`}</Button>
-                    </FormGroup>
-                </Form>
+            <div style={customBorder}>
+                <p>
+                    {"Pour un coût de "}
+                    <span style={{fontWeight: "bold"}}>{pointsTxt}</span>
+                    {
+                        ", sélectionnez une lettre dans la liste et validez pour obtenir sa valeur"
+                    }
+                </p>
+
+                <div style={{textAlign: "center", margin: "10px 0"}}>
+                    <Form inline style={{display: "inline-block", width: "auto", verticalAlign: "middle"}}>
+                        <FormGroup controlId="formControlsSelect">
+                            <FormControl
+                                onChange={this.onDropdownChanged}
+                                inputRef={el => (this.inputEl = el)}
+                                value={this.state.index}
+                                disabled={isActive}
+                                componentClass="select"
+                                placeholder="select">
+                                <option key={-1} value="">lettre</option>
+                                {hintsOptions}
+                            </FormControl>
+                            <Button disabled={this.state.index === ""} onClick={this.handleHintSubmit}>{`Valider`}</Button>
+                        </FormGroup>
+                    </Form>
+                </div>
             </div>
         );
     }
@@ -80,26 +112,7 @@ class Hint2View extends React.PureComponent {
     };
 }
 
-function HintsPresentor ({pointsTxt, isLeft, children}) {
-    const customBorder = {display: "inline-grid", padding: "10px", border: "1px solid #000", width: "33%", background: "rgb(202, 202, 202)"};
-    if (isLeft) {
-        customBorder.borderRight = "0";
-    } else {
-        customBorder.borderLeft = "0";
-    }
-    return (
-        <div style={customBorder}>
-            <p>
-                {"Pour un coût de "}
-                <span style={{fontWeight: "bold"}}>{pointsTxt}</span>
-                {
-                    ", cliquez sur une case de substitution et validez pour obtenir sa valeur."
-                }
-            </p>
-            {children}
-        </div>
-    );
-}
+
 
 function HintSelector (state) {
     const {alphabet, hints} = selectTaskData(state);
@@ -130,12 +143,8 @@ class Hints extends React.PureComponent {
                 <div style={{width: "100%", margin: "20px 0"}}>
                     <div style={{textAlign: "center"}}>
                         <h2>Indices</h2>
-                        <HintsPresentor pointsTxt={`1 point`} isLeft={true}>
-                            <Hint1View {...this.props} />
-                        </HintsPresentor>
-                        <HintsPresentor pointsTxt={`1 point`} isLeft={false}>
-                            <Hint2View {...this.props} />
-                        </HintsPresentor>
+                        <Hint1View pointsTxt={`1 point`} isLeft={true} {...this.props} />
+                        <Hint2View pointsTxt={`1 point`} isLeft={false} {...this.props} />
                     </div>
                 </div>
             </div>);
