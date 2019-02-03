@@ -20,9 +20,22 @@ module.exports.taskData = function (args, callback) {
   if (process.env.DEV_MODE) {
     args.task.random_seed = 1;
   }
+  const version = parseInt(args.task.params.version);
+  let numAnswerKeys = 0;
+
+  switch (version) {
+    case 1: {
+      numAnswerKeys = 8;
+      break;
+    }
+    case 2: {
+      numAnswerKeys = 1;
+      break;
+    }
+  }
   // hints array
   const hintsRequested = getHintsRequested(args.task.hints_requested);
-  const {publicData} = generateTaskData(args.task.random_seed, hintsRequested);
+  const {publicData} = generateTaskData(args.task.random_seed, hintsRequested, numAnswerKeys);
   callback(null, publicData);
 };
 
@@ -96,7 +109,7 @@ function generateMessageData (alphabet, seedInt, hintsRequested) {
   const rngKeys = seedrandom(rng0());
   const rngText = seedrandom(rng0());
 
-  const clearText = generate(rngText, 1000, 1100, false);
+  const clearText = generate(rngText, 1000, 1100, true);
   // const clearText = alphabet.repeat(10);
   const encodingKey = generateKey(alphabet, rngKeys); // encoding keys in decoding order
   const decodingKey = inversePermutation(alphabet, encodingKey);
@@ -113,7 +126,7 @@ function getHintsRequested (hints_requested) {
     .filter(hr => hr !== null);
 }
 
-function generateTaskData (random_seed, hintsRequested) {
+function generateTaskData (random_seed, hintsRequested, answerKeys = 0) {
 
   const {
     cipherText,
@@ -132,6 +145,7 @@ function generateTaskData (random_seed, hintsRequested) {
     alphabet,
     cipherText,
     hints,
+    answerKeys: encodingKey.substring(0, answerKeys).split(''),
     firstname: 'test'
   };
 
@@ -140,9 +154,9 @@ function generateTaskData (random_seed, hintsRequested) {
 
 function generateKey (alphabet, rngKeys) {
   let key = shuffle({random: rngKeys, deck: alphabet.split("")}).cards.join("");
-  if (process.env.DEV_MODE) {
-    key = "HIJKLMNOPQRSTUVWXYZABCDEFG,.?"; //for dev mode testing
-  }
+ // if (process.env.DEV_MODE) {
+ //   key = "HIJKLMNOPQRSTUVWXYZABCDEFG,.?"; //for dev mode testing
+ // }
   return key;
 }
 
