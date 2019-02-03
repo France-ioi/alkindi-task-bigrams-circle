@@ -29,9 +29,9 @@ class BigramFrequencyAnalysis extends React.PureComponent {
 
       return (
          <div className='bigramFrequencyAnalysis grillesSection'>
-            <h5>In the encrypted message:</h5>
+            <h5>Dans le message chiffré :</h5>
             {textBigrams}
-            <h5>In the French language:</h5>
+            <h5>Dans la langue française :</h5>
             {frenchBigrams}
          </div>
       );

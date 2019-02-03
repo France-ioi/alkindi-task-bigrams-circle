@@ -25,26 +25,26 @@ class Workspace extends React.PureComponent {
     return (
       <div>
         <br />
-        <h2>Encrypted message</h2>
+        <h2>Message chiffré</h2>
         <CipheredText />
         <h2>Encryption key</h2>
         <div className='panel-body'>
           <Decryption />
         </div>
         <Hints />
-        <h2>Generated bigram substitutions</h2>
+        <h2>Bigrammes de substitution générés</h2>
         <div className='panel-body'>
           <Substitution />
         </div>
-        <h2>Applying generated substitutions and adding manual substitutions</h2>
+        <h2>Application des substitutions générées et ajout manuel</h2>
         <EditSubstitution nbLettersPerRow={29} />
-        <h2>Most frequent bigrams</h2>
+        <h2>Bigrammes les plus fréquents</h2>
         <div className='panel-body'>
           <BigramFrequencyAnalysis
             editable={false}
             nBigrams={10} />
         </div>
-        <h2>Decrypted message</h2>
+        <h2>Message décrypté</h2>
         <div className='panel-body'>
           <DecipheredText />
         </div>
