@@ -5,13 +5,13 @@ import {connect} from 'react-redux';
 function WorkspaceSelector (state) {
   const {
     views: {
-      CipheredText, Decryption, DecipheredText, Hints,
+      CipheredText, Decryption, DecipheredText, Hints, HintRequestFeedback,
       Substitution, EditSubstitution, BigramFrequencyAnalysis
     },
   } = state;
 
   return {
-    CipheredText, Decryption, DecipheredText, Hints,
+    CipheredText, Decryption, DecipheredText, Hints, HintRequestFeedback,
     Substitution, EditSubstitution, BigramFrequencyAnalysis,
   };
 }
@@ -19,7 +19,7 @@ function WorkspaceSelector (state) {
 class Workspace extends React.PureComponent {
   render () {
     const {
-      CipheredText, Decryption, DecipheredText, Hints,
+      CipheredText, Decryption, DecipheredText, Hints, HintRequestFeedback,
       Substitution, EditSubstitution, BigramFrequencyAnalysis,
     } = this.props;
     return (
@@ -32,6 +32,7 @@ class Workspace extends React.PureComponent {
           <Decryption />
         </div>
         <Hints />
+        <HintRequestFeedback />
         <h2>Substitutions de bigrammes générés</h2>
         <div className='panel-body'>
           <Substitution />
