@@ -17,9 +17,6 @@ module.exports.config = {
 };
 
 module.exports.taskData = function (args, callback) {
-  if (process.env.DEV_MODE) {
-    args.task.random_seed = 1;
-  }
   const version = parseInt(args.task.params.version);
   // hints array
   const hintsRequested = getHintsRequested(args.task.hints_requested);
@@ -51,9 +48,6 @@ module.exports.requestHint = function (args, callback) {
 
 module.exports.gradeAnswer = function (args, task_data, callback) {
 
-  if (process.env.DEV_MODE) {
-    args.task.random_seed = 1;
-  }
   // hints array
   const hintsRequested = getHintsRequested(args.answer.hints_requested);
 
