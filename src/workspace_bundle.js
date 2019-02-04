@@ -32,7 +32,9 @@ class Workspace extends React.PureComponent {
           <Decryption />
         </div>
         <Hints />
-        <HintRequestFeedback />
+        <div style={{minHeight: '52px'}}>
+          <HintRequestFeedback />
+        </div>
         <h2>Substitutions de bigrammes générés</h2>
         <div className='panel-body'>
           <Substitution />
