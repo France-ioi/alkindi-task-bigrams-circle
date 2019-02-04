@@ -45,6 +45,7 @@ function decipheredTextScrolledReducer (state, {payload: {scrollTop}}) {
 }
 
 function decipheredTextLateReducer (state, _action) {
+  if (_action.type !== 'Decryption.Cell.Char.Changed' && _action.type.startsWith('Decryption.Cell')) return state;
   if (!state.taskReady) return state;
   let {decipheredText} = state;
   const {alphabet, cipherText} = selectTaskData(state);

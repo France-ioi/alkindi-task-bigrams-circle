@@ -77,7 +77,7 @@ function* bigramChanged () {
 }
 
 function decryptionLateReducer (state, _action) {
-
+  if (_action.type !== 'Decryption.Cell.Char.Changed' && _action.type.startsWith('Decryption.Cell')) return state;
   const {decryption, alphabet} = state;
   if (!state.taskReady) {
     return state;
@@ -194,7 +194,7 @@ class DecryptionCell extends React.PureComponent {
       borderRightWidth: isLast ? '1px' : '0',
       textAlign: 'center',
       cursor: 'text',
-      backgroundColor: isHint ? '#afa' : (isFilled ? '#daff9f' : (isConflict ? '#fcc' : '#fff'))
+      backgroundColor: isHint ? '#afa' : (isConflict ? '#fcc' : (isFilled ? '#daff9f' :'#fff'))
     };
     /* Apply active-status separation border style. */
     const bottomCellStyle = staticCellStyle;

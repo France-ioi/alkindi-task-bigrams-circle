@@ -279,6 +279,7 @@ function cancelEditReducer (state, action) {
 
 function lateReducer (state, _action) {
    if (_action.type === "CipheredText.Scrolled" || _action.type === "DecipheredText.Scrolled") return state;
+   if (_action.type !== 'Decryption.Cell.Char.Changed' && _action.type.startsWith('Decryption.Cell')) return state;
    if (state.taskReady) {
       const {alphabet, bigramAlphabet} = state;
       const inputCipheredText = selectTaskData(state).cipherText;
