@@ -143,8 +143,8 @@ class Hints extends React.PureComponent {
                 <div style={{width: "100%", margin: "20px 0"}}>
                     <div style={{textAlign: "center"}}>
                         <h2>Indices</h2>
-                        <Hint1View pointsTxt={`1 point`} isLeft={true} {...this.props} />
-                        <Hint2View pointsTxt={`1 point`} isLeft={false} {...this.props} />
+                        <Hint1View pointsTxt={`5 point`} isLeft={true} {...this.props} />
+                        <Hint2View pointsTxt={`5 point`} isLeft={false} {...this.props} />
                     </div>
                 </div>
             </div>);
