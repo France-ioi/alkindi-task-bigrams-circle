@@ -194,7 +194,7 @@ class DecryptionCell extends React.PureComponent {
       borderRightWidth: isLast ? '1px' : '0',
       textAlign: 'center',
       cursor: 'text',
-      backgroundColor: isHint ? '#afa' : (isConflict ? '#fcc' : (isFilled ? '#daff9f' :'#fff'))
+      backgroundColor:  isConflict ? '#fcc' : (isHint ? '#afa' : (isFilled ? '#daff9f' :'#fff'))
     };
     /* Apply active-status separation border style. */
     const bottomCellStyle = staticCellStyle;
