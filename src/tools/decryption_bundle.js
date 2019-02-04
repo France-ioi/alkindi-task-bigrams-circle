@@ -207,13 +207,13 @@ class DecryptionCell extends React.PureComponent {
     }
     const bigramL1Style = this.getBigramStyles(l1Cell);
     const bigramL1Cell = (
-      <div className={bigramL1Style} onClick={this.bigramL1Selected}>
+      <div className={bigramL1Style} style={{cursor: 'pointer'}} onClick={this.bigramL1Selected}>
         {'\u00A0'}
       </div>
     );
     const bigramL2Style = this.getBigramStyles(l2Cell);
     const bigramL2Cell = (
-      <div className={bigramL2Style} onClick={this.bigramL2Selected}>
+      <div className={bigramL2Style} style={{cursor: 'pointer'}} onClick={this.bigramL2Selected}>
         {'\u00A0'}
       </div>
     );
