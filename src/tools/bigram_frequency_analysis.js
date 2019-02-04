@@ -218,7 +218,8 @@ function cancelEditReducer (state, action) {
    });
 }
 
-function lateReducer (state) {
+function lateReducer (state, _action) {
+   if (_action.type === "CipheredText.Scrolled" || _action.type === "DecipheredText.Scrolled") return state;
    if (state.taskReady) {
       const {bigramAlphabet} = state;
       const {substitutionEdits, nBigrams} = state.bigramFrequencyAnalysis;
