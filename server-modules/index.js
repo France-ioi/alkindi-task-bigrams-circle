@@ -69,7 +69,15 @@ module.exports.gradeAnswer = function (args, task_data, callback) {
     nHints > 1 ? "s" : ""
     }.`;
 
-  if (answerKey === encodingKey) {
+  const encodingBigrams = makeSubstitutionBigramAlphabet(alphabet, encodingKey);
+  const answerBigrams = makeSubstitutionBigramAlphabet(alphabet, answerKey);
+  var same = true;
+  for (var key in encodingBigrams) {
+    if (encodingBigrams[key] != answerBigrams[key]) {
+      same = false;
+    }
+  }
+  if (same) {
     score = Math.max(0, 100 - (nHints * 5));
     message = "Bravo, vous avez retrouvé la clé de déchiffrement." + message;
   } else {
@@ -87,7 +95,7 @@ module.exports.gradeAnswer = function (args, task_data, callback) {
  * task methods
  */
 function generateMessageData (alphabet, seedInt, hintsRequested) {
-  const rng0 = seedrandom(seedInt);
+  const rng0 = seedrandom(seedInt + 17);
   const rngKeys = seedrandom(rng0());
   const rngText = seedrandom(rng0());
 
